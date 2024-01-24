@@ -7,7 +7,9 @@ namespace AppAPI.Services.Interface
     public interface IUserServices
     {
         Task<SaveUserResponse> saveUser(SaveUser saveUser);
+        Task<SaveUserResponse> profileComplete( ProfileInfo profileInfo);
         Task deleteuser(int Id);
         Task<List<UserModel>> getUser();
+        Task<GetUserByNameResponse> getUserByUsername(string Username ); 
     }
 }

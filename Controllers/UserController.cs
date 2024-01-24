@@ -23,7 +23,7 @@ namespace AppAPI.Controllers
 
 
           var Result =   await _services.saveUser(saveUser);
-            return Result;
+          return Result;
         }
 
         [HttpGet("GetUser")]
@@ -31,9 +31,24 @@ namespace AppAPI.Controllers
         {
             var Result = await _services.getUser();
             return Result;
-          
+         
+        }
 
+        [HttpGet("GetUserByUsername")]
+        public async Task<GetUserByNameResponse> getUserByUsername(string Username)
+        {
+            var Result =await _services.getUserByUsername(Username);
+       
+            return Result;
+        }
 
+        [HttpPut("CompleteProfile")]
+        public async Task<SaveUserResponse> profileComplete(ProfileInfo profileInfo )
+        {
+            var Result = await _services.profileComplete(profileInfo);
+            return Result;
         }
     }
 }
+
+
