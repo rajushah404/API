@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\AppAPI\\AppAPI.csproj": {}
+    "D:\\ChiyaTalkAPI\\AppAPI.csproj": {}
   },
   "projects": {
-    "D:\\AppAPI\\AppAPI.csproj": {
+    "D:\\ChiyaTalkAPI\\AppAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\AppAPI\\AppAPI.csproj",
+        "projectUniqueName": "D:\\ChiyaTalkAPI\\AppAPI.csproj",
         "projectName": "AppAPI",
-        "projectPath": "D:\\AppAPI\\AppAPI.csproj",
+        "projectPath": "D:\\ChiyaTalkAPI\\AppAPI.csproj",
         "packagesPath": "C:\\Users\\rajus\\.nuget\\packages\\",
-        "outputPath": "D:\\AppAPI\\obj\\",
+        "outputPath": "D:\\ChiyaTalkAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\rajus\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -44,9 +44,13 @@
               "target": "Package",
               "version": "[2.1.28, )"
             },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[6.4.0, )"
+              "version": "[6.5.0, )"
             },
             "System.Data.SqlClient": {
               "target": "Package",
@@ -76,7 +80,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

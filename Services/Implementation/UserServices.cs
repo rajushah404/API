@@ -19,7 +19,7 @@ namespace AppAPI.Services.Implementation
 
         public Task<List<UserModel>> getUser()
         {
-            var result = GetQueryResultAsync<UserModel>("exec spUsers @Flag=@Flag",new{
+            var result = GetQueryResultAsync<UserModel>("exec spUserInfo @Flag=@Flag", new{
                 Flag = "G",
             });
 
@@ -44,7 +44,7 @@ namespace AppAPI.Services.Implementation
         public async Task<SaveUserResponse> profileComplete(ProfileInfo model)
         {
 
-            var result = await GetQueryFirstOrDefaultAsync<SaveUserResponse>("exec spUsers @Flag=@Flag,@Address=@Address,@Email=@Email,@ContachNo=@ContachNo,@Image=@Image,@UserName = @UserName", new
+            var result = await GetQueryFirstOrDefaultAsync<SaveUserResponse>("exec spUserInfo @Flag=@Flag,@Address=@Address,@Email=@Email,@ContachNo=@ContachNo,@Image=@Image,@UserName = @UserName", new
             {
                 Flag = "U",
                 UserName = model.Username,
@@ -63,7 +63,7 @@ namespace AppAPI.Services.Implementation
         public async Task<GetUserByNameResponse> getUserByUsername(string Username)
         {
             GetUserByNameResponse getUserByNameResponse = new GetUserByNameResponse();
-            var getUser = await GetQueryFirstOrDefaultAsync<UserModel>("exec spUsers @Flag=@Flag, @UserName = @UserName", new
+            var getUser = await GetQueryFirstOrDefaultAsync<UserModel>("exec spUserInfo @Flag=@Flag, @UserName = @UserName", new
             {
                 Flag = "N",
                 UserName = Username

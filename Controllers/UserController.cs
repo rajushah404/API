@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace AppAPI.Controllers
 {
     [Route("api/[controller]")]
-    [AllowAnonymous]
     [ApiController]
     public class UserController : Controller
     {
@@ -26,7 +25,7 @@ namespace AppAPI.Controllers
           return Result;
         }
 
-        [HttpGet("GetUser")]
+        [HttpGet("GetUser"), Authorize]
         public async Task<List<UserModel>> GetUser ()
         {
             var Result = await _services.getUser();
@@ -34,7 +33,7 @@ namespace AppAPI.Controllers
          
         }
 
-        [HttpGet("GetUserByUsername")]
+        [HttpGet("GetUserByUsername"), Authorize]
         public async Task<GetUserByNameResponse> getUserByUsername(string Username)
         {
             var Result =await _services.getUserByUsername(Username);
@@ -42,7 +41,7 @@ namespace AppAPI.Controllers
             return Result;
         }
 
-        [HttpPut("CompleteProfile")]
+        [HttpPut("CompleteProfile"), Authorize]
         public async Task<SaveUserResponse> profileComplete(ProfileInfo profileInfo )
         {
             var Result = await _services.profileComplete(profileInfo);
