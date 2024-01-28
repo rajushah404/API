@@ -17,9 +17,10 @@ namespace AppAPI.Services.Implementation
             _configuration = configuration;
         }
 
-        public async Task<LoginResponseModel> GenerateToken(LoginRequestModel loginRequestModel)
+        public async Task<LoginResponseModel<TokenInfo>> GenerateToken(LoginRequestModel loginRequestModel)
         {
-            LoginResponseModel responseModel = new LoginResponseModel();
+            LoginResponseModel<TokenInfo> responseModel = new LoginResponseModel<TokenInfo>();
+            TokenInfo tokenInfo = new TokenInfo();  
 
             var userDetails = await GetQueryFirstOrDefaultAsync<UserModel>(
                 "exec spLogin @Flag=@Flag,@UserName=@UserName", new
@@ -27,9 +28,23 @@ namespace AppAPI.Services.Implementation
                     Flag = "L",
                     UserName = loginRequestModel.Username
                 });
+            if (userDetails == null) {
+                return new LoginResponseModel<TokenInfo>()
+                {
+                    StatusCode = "003",
+                    Message = "  User not found .",
+                    TokenInfo = null,
+                };
+
+            }
             if (loginRequestModel.Password != userDetails.Password)
             {
-                return null;
+                return new LoginResponseModel<TokenInfo>()
+                {
+                    StatusCode = "002",
+                    Message = "Incorrect Username or password.",
+                    TokenInfo = null,
+                };
             }
             else
             {
@@ -39,16 +54,37 @@ namespace AppAPI.Services.Implementation
                 new Claim("Username",userDetails.Username.ToString())
             };
                 var token = GenerateToken(authClaims);
-                responseModel.Token = token.Token;
-                return responseModel;
+                if(token.TokenInfo.Token != null)
+                {
+                    tokenInfo.Token = token.TokenInfo.Token;
+                    tokenInfo.Username = userDetails.Username;
+                    tokenInfo.Status = userDetails.isVerified;
+                    return new LoginResponseModel<TokenInfo>()
+                    {
+                        StatusCode="000",
+                        Message= "User Verified",
+                        TokenInfo = tokenInfo,
+                    };
+                }
+                else
+                {
+                    return new LoginResponseModel<TokenInfo>()
+                    {
+                        StatusCode = "001",
+                        Message = "Invalid User",
+                        TokenInfo = null,
+                    };
+                }
+                
             }
 
 
         }
 
-        private LoginResponseModel GenerateToken(List<Claim> claims)
+        private LoginResponseModel<TokenInfo> GenerateToken(List<Claim> claims)
         {
-            LoginResponseModel model = new LoginResponseModel();    
+            LoginResponseModel<TokenInfo> model = new LoginResponseModel<TokenInfo>();
+            TokenInfo tokenInfo = new TokenInfo();  
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["AppSettings:Token"]));
             _ = int.TryParse(_configuration["AppSettings:TokenValidityInMinutes"], out int tokenValidityInMinutes);
             var token = new JwtSecurityToken(
@@ -59,9 +95,13 @@ namespace AppAPI.Services.Implementation
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenString = tokenHandler.WriteToken(token);
-            model.Token = tokenString;
 
-            return model;
+            tokenInfo.Token = tokenString;
+            
+            return new LoginResponseModel<TokenInfo>()
+            {
+                TokenInfo = tokenInfo
+            };
         }
     }
 }

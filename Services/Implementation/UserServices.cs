@@ -29,12 +29,14 @@ namespace AppAPI.Services.Implementation
         public async Task<SaveUserResponse>saveUser(SaveUser saveUser)
         {
 
-            var result = await GetQueryFirstOrDefaultAsync<SaveUserResponse>("exec spUsers @Flag=@Flag,@UserName=@UserName,@Password=@Password,@Name=@Name", new
+            var result = await GetQueryFirstOrDefaultAsync<SaveUserResponse>("exec spUserInfo @Flag=@Flag,@UserName=@UserName,@Password=@Password,@Name=@Name,@isVerified = @isVerified", new
             {
                 Flag="S",
                 Username = saveUser.Username,
                 Password=saveUser.Password,
                 Name=saveUser.Name,
+                isVerified = 0
+                
 
 
             });
@@ -44,7 +46,7 @@ namespace AppAPI.Services.Implementation
         public async Task<SaveUserResponse> profileComplete(ProfileInfo model)
         {
 
-            var result = await GetQueryFirstOrDefaultAsync<SaveUserResponse>("exec spUserInfo @Flag=@Flag,@Address=@Address,@Email=@Email,@ContachNo=@ContachNo,@Image=@Image,@UserName = @UserName", new
+            var result = await GetQueryFirstOrDefaultAsync<SaveUserResponse>("exec spUserInfo @Flag=@Flag,@Address=@Address,@Email=@Email,@ContachNo=@ContachNo,@Image=@Image,@UserName = @UserName,@isVerified = @isVerified", new
             {
                 Flag = "U",
                 UserName = model.Username,
@@ -52,6 +54,7 @@ namespace AppAPI.Services.Implementation
                 Email = model.Email,
                 ContachNo = model.ContachNo,
                 Image = model.Image,
+                isVerified = 1
                 
 
             });

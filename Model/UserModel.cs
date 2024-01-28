@@ -17,6 +17,9 @@ namespace AppAPI.Model
 
         public string ContachNo { get; set; }
         public string Image { get; set; }
+
+        public int isVerified { get; set; }
+        
     }
 }
 

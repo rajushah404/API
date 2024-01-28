@@ -20,25 +20,31 @@ namespace AppAPI.Controllers
             _loginService = loginService;
         }
         [HttpPost("Login")]
-        public async Task<ActionResult<LoginResponseModel>> LoginResponseModel(LoginRequestModel loginRequestModel)
+        public async Task<ActionResult<LoginResponseModel<TokenInfo>>> LoginResponseModel(LoginRequestModel loginRequestModel)
         {
-            LoginResponseModel loginResponseModel = new LoginResponseModel();
+            LoginResponseModel<TokenInfo> loginResponseModel = new LoginResponseModel<TokenInfo>();
             var Token = await _loginService.GenerateToken(loginRequestModel);
-            if (Token == null)
+            if (Token != null && Token.StatusCode != "000")
             {
-                loginResponseModel.StatusCode = "001";
-                loginResponseModel.Message = "Invalid User";
-                loginResponseModel.Token = null;
               
+                return new LoginResponseModel<TokenInfo>()
+                {
+                    TokenInfo = Token.TokenInfo,
+                    StatusCode = Token.StatusCode,
+                    Message = Token.Message,
+                };
             }
             else
             {
-                loginResponseModel.StatusCode = "000";
-                loginResponseModel.Message = " User Verified";
-                loginResponseModel.Token = Token.Token;
-               
+
+                return new LoginResponseModel<TokenInfo>()
+                {
+                    TokenInfo = Token.TokenInfo,
+                    StatusCode = Token.StatusCode,
+                    Message = Token.Message,
+                };
+
             }
-            return loginResponseModel;
         }
     }
 }

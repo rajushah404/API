@@ -6,7 +6,7 @@ namespace AppAPI.Services.Interface
 {
     public interface ILoginInterface
     {
-        Task<LoginResponseModel> GenerateToken(LoginRequestModel loginRequestModel);
+        Task<LoginResponseModel<TokenInfo>> GenerateToken(LoginRequestModel loginRequestModel);
  
     }
 }

@@ -10,5 +10,7 @@ namespace AppAPI.Model.RequestModel
         public string Username { get; set; }
         [Required(ErrorMessage = "Password Required")]
         public string Password { get; set; }
+
+
     }
 }

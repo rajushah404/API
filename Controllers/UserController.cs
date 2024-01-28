@@ -41,7 +41,7 @@ namespace AppAPI.Controllers
             return Result;
         }
 
-        [HttpPut("CompleteProfile"), Authorize]
+        [HttpPost("CompleteProfile"), Authorize]
         public async Task<SaveUserResponse> profileComplete(ProfileInfo profileInfo )
         {
             var Result = await _services.profileComplete(profileInfo);
